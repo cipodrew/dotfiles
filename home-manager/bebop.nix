@@ -21,6 +21,8 @@
     ## git zsh curl wget gcc make unzip
   home.packages = with pkgs; [
     fastfetch ## shows local IP!
+
+    nvd  # Nix/NixOS package version diff tool
     # glow #Markdown TUI
     just # task runner
 
