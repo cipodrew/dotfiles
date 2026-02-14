@@ -33,13 +33,14 @@ alias pomobr="pomodoro.sh 'break'"
 ## Copies commit hash to clipboard
 alias cpyhash="git log --oneline | fzf | cut -d' ' -f1 | xclip -sel c"
 ## requires gum https://github.com/charmbracelet
-alias printhash="git log --oneline | gum choose --no-limit | cut -d' ' -f1"
+# alias printhash="git log --oneline | gum choose --no-limit | cut -d' ' -f1"
 ## versione analoga con solo fzf
-#alias printhash="git log --oneline | fzf --multi | cut -d' ' -f1"
+alias printhash="git log --oneline | fzf --multi | cut -d' ' -f1"
 
 ## stessa cosa ma per home-manager
 ## requires gum https://github.com/charmbracelet
-alias hm-genpath="home-manager generations | gum choose --no-limit | cut -d' ' -f7"
+# alias hm-genpath="home-manager generations | gum choose --no-limit | cut -d' ' -f7"
+alias hm-genpath="home-manager generations | fzf --multi | cut -d' ' -f7"
 ## not working ## alias hm-diffgen"home-manager generations | gum choose --limit 2 | cut -d' ' -f7 | tr '\n' ' '| nix store diff-closures"
 
 #### HOME-MANAGER
@@ -48,6 +49,50 @@ alias hm="home-manager"
 function hm-switch() {
 	local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
 	home-manager switch --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"
+}
+
+# Compare any two generations with fzf
+hm-diff-fzf() {
+  local selections=(${(f)"$(home-manager generations | fzf --multi --prompt="Select 2 generations to compare: " | awk '{print $NF}')"})
+  
+  if [[ ${#selections[@]} -ne 2 ]]; then
+    echo "Please select exactly 2 generations"
+    return 1
+  fi
+  
+  # Replace "(current)" with actual profile path
+  local generations=()
+  for gen in $selections; do
+    if [[ "$gen" == "(current)" ]]; then
+      generations+=(~/.local/state/nix/profiles/home-manager)
+    else
+      generations+=("$gen")
+    fi
+  done
+
+  nvd diff "${generations[1]}" "${generations[2]}"
+}
+
+# Build and show what will change
+hm-preview() {
+  local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
+  home-manager build --flake ~/dotfiles/home-manager/#"${lowercase_hostname}" && \
+  nvd diff ~/.local/state/nix/profiles/home-manager ./result
+  rm -i ./result
+}
+
+# Build, preview, and switch if approved
+hm-update() {
+  local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
+  if home-manager build --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"; then
+    nvd diff ~/.local/state/nix/profiles/home-manager ./result
+    read -p "Apply these changes? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      home-manager switch --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"
+    fi
+  fi
+  rm -i ./result
 }
 
 alias yz="yazi"
