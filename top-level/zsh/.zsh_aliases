@@ -51,8 +51,8 @@ function hm-switch() {
 	home-manager switch --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"
 }
 
-# Compare any two generations with fzf
-hm-diff-fzf() {
+# Compare any two generations with fzf. ZSH arrays are 1 indexed
+function hm-diff-fzf() {
   local selections=(${(f)"$(home-manager generations | fzf --multi --prompt="Select 2 generations to compare: " | awk '{print $NF}')"})
   
   if [[ ${#selections[@]} -ne 2 ]]; then
@@ -72,9 +72,8 @@ hm-diff-fzf() {
 
   nvd diff "${generations[1]}" "${generations[2]}"
 }
-
 # Build and show what will change
-hm-preview() {
+function hm-preview() {
   local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
   home-manager build --flake ~/dotfiles/home-manager/#"${lowercase_hostname}" && \
   nvd diff ~/.local/state/nix/profiles/home-manager ./result
@@ -82,7 +81,7 @@ hm-preview() {
 }
 
 # Build, preview, and switch if approved
-hm-update() {
+function hm-update() {
   local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
   if home-manager build --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"; then
     nvd diff ~/.local/state/nix/profiles/home-manager ./result
@@ -93,6 +92,11 @@ hm-update() {
     fi
   fi
   rm -i ./result
+}
+
+function hm-edit() {
+	local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
+	"$EDITOR" ~/dotfiles/home-manager/"${lowercase_hostname}".nix
 }
 
 alias yz="yazi"
@@ -106,6 +110,16 @@ function ycd() {
 	rm -f -- "$tmp"
 }
 alias yy="ycd"
+
+# # Just scan current files (fast)
+alias leakscan="nix run nixpkgs#gitleaks -- detect --source . --verbose"
+# alias leakscan='nix-shell -p gitleaks --run "gitleaks detect --source . --verbose"'
+#
+# # Scan last 10 commits (reasonable)
+alias leakscan_10='nix run nixpkgs#gitleaks -- detect --source . --log-opts="HEAD~10..HEAD"'
+#
+# # Full history scan (thorough but slower)
+alias leakscan_all=nix run nixpkgs#gitleaks -- detect --source . --log-opts="--all"
 
 alias recap='echo "Ctrl + f -> accept completion
 
