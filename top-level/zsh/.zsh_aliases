@@ -1,0 +1,92 @@
+
+## just have nix devshells use zsh as default
+nix() {
+  if [[ $1 == "develop" ]]; then
+    shift
+    command nix develop -c $SHELL "$@"
+  else
+    command nix "$@"
+  fi
+}
+
+# alias fd='fdfind'
+alias lg='lazygit'
+alias ld='lazydocker'
+#alias updateall='flatpak update && echo "" && echo "now running nala" | lolcat && sudo nala update'
+alias updateall='flatpak update && echo "" && figlet "nala" | lolcat && sudo nala update && nala list --upgradeable'
+alias clipcp='xclip -selection c'
+alias v="nvim"
+alias vim="nvim"
+# alias bat="batcat"
+alias tx="tmux new -s 'default'"
+alias trackmanuallyinstalled="appImgFileUpdate.sh && fontFileUpdate.sh && flatpakFileUpdate.sh && nalaFileUpdate.sh"
+alias lla="ls -lA"
+alias llat="ls -lAt"
+alias llt="ls -lt"
+alias lt="ls -t"
+# alias l="ls -A"
+alias l="nnn"
+
+alias pomowo="pomodoro.sh 'work'"
+alias pomobr="pomodoro.sh 'break'"
+
+## Copies commit hash to clipboard
+alias cpyhash="git log --oneline | fzf | cut -d' ' -f1 | xclip -sel c"
+## requires gum https://github.com/charmbracelet
+alias printhash="git log --oneline | gum choose --no-limit | cut -d' ' -f1"
+## versione analoga con solo fzf
+#alias printhash="git log --oneline | fzf --multi | cut -d' ' -f1"
+
+## stessa cosa ma per home-manager
+## requires gum https://github.com/charmbracelet
+alias hm-genpath="home-manager generations | gum choose --no-limit | cut -d' ' -f7"
+## not working ## alias hm-diffgen"home-manager generations | gum choose --limit 2 | cut -d' ' -f7 | tr '\n' ' '| nix store diff-closures"
+
+#### HOME-MANAGER
+alias hm="home-manager"
+
+function hm-switch() {
+	local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
+	home-manager switch --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"
+}
+
+alias yz="yazi"
+alias y="yazi"
+function ycd() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+alias yy="ycd"
+
+alias recap='echo "Ctrl + f -> accept completion
+
+Ctrl + a -> Move to start of line
+Ctrl + e -> Move to end of line
+Cltr + u -> Cut from cursor to beginning of line
+Cltr + k -> Cut from cursor to end of line
+Cltr + y -> paste from text buffer, which store what you deleted with ctrl u/k/w
+
+Cltr + w -> delete from cursor to start of word
+Ctrl + Shift + _ -> Undo the last changes.
+Ctrl + x Ctrl + u -> Undo the last changes.
+
+Alt + b -> back one word
+Analogo in avanti con F al posto di B
+Alt + d -> delete to end of next word after the cursor
+Ctrl + b -> back one char
+
+Alt + r -> Undo all changes to the line.
+Alt + Ctrl + e -> Expand command line.
+Ctrl + p -> history-search-backward
+Ctrl + n -> history-search-forward
+fc = fix command in editor
+r = repeat commmand, can also substitute arguments eg: r .txt=.md
+
+cd - = go back to previous directory
+"
+
+'

@@ -1,0 +1,6 @@
+#output di xset -q | grep delay
+auto repeat delay:  660    repeat rate:  25
+
+# sweetspot attuale invec
+xset r rate 400 25
+

@@ -1,0 +1,11 @@
+[user]
+	name = andread
+	email = 141414129+cipodrew@users.noreply.github.com
+[alias]
+	logag = log --all --graph
+	cm = commit -m
+	s = status
+	prettylog = log --pretty=format:'%C(yellow)%h %Cgreen%cr %Creset%s%n'
+	last = log -1 HEAD
+	prettygraph = log --graph --pretty=format:'%C(yellow)%h -%C(cyan)%d %C(italic brightgreen)%cr - %Creset%s%n'
+	recap = log --graph --oneline --decorate

@@ -1,0 +1,76 @@
+[
+  {
+    "command": "-keymaps:open",
+    "keybinding": "ctrl+alt+,"
+  },
+  {
+    "command": "-editor.action.peekDefinition",
+    "keybinding": "shift+ctrl+f10",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  {
+    "command": "-goToNextReference",
+    "keybinding": "f12",
+    "when": "inReferenceSearchEditor || referenceSearchVisible"
+  },
+  {
+    "command": "goToNextReference",
+    "keybinding": "ctrl+f12",
+    "when": "inReferenceSearchEditor || referenceSearchVisible"
+  },
+  {
+    "command": "editor.action.showDefinitionPreviewHover",
+    "keybinding": "alt+h"
+  },
+  {
+    "command": "file.rename",
+    "keybinding": "ctrl+f2"
+  },
+  {
+    "command": "editor.gotoNextSymbolFromResult",
+    "keybinding": "ctrl+f12",
+    "when": "hasSymbols"
+  },
+  {
+    "command": "-editor.gotoNextSymbolFromResult",
+    "keybinding": "f12",
+    "when": "hasSymbols"
+  },
+  {
+    "command": "goToPreviousReference",
+    "keybinding": "ctrl+shift+f12",
+    "when": "inReferenceSearchEditor || referenceSearchVisible"
+  },
+  {
+    "command": "-goToPreviousReference",
+    "keybinding": "shift+f12",
+    "when": "inReferenceSearchEditor || referenceSearchVisible"
+  },
+  {
+    "command": "editor.action.revealDefinition",
+    "keybinding": "f12",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "command": "-editor.action.revealDefinition",
+    "keybinding": "ctrl+f12",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "command": "editor.action.peekDefinition",
+    "keybinding": "f10",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  {
+    "command": "keymaps:open",
+    "keybinding": "ctrl+k s"
+  },
+  {
+    "command": "arduino-close",
+    "keybinding": "CtrlCmd+shift+W"
+  },
+  {
+    "command": "-arduino-close",
+    "keybinding": "CtrlCmd+W"
+  }
+]

@@ -1,0 +1,23 @@
+{
+    "C_Cpp.default.cStandard": "c99",
+    "C_Cpp.default.compilerPath": "gcc",
+    "editor.fontFamily": "'FiraCode Nerd Font', 'Fira Code', 'JetBrains Mono', Consolas, 'Courier New', monospace",
+    "svelte.enable-ts-plugin": true,
+    "editor.fontLigatures": false,
+    "workbench.tree.indent": 16,
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.editor.labelFormat": "short",
+    "explorer.compactFolders": false,
+    "material-icon-theme.folders.color": "#7cb342",
+    "liveServer.settings.host": "localhost",
+    "workbench.colorTheme": "Eva Light",
+    "workbench.externalBrowser": "firefox"
+    //css intellisense plugin options
+    "css.styleSheets": [ //only  works for files in src dir
+        "src/**/*.css"
+    ],
+    "css.enabledLanguages": [
+        "html",
+        "svelte"
+    ],
+}

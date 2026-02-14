@@ -1,0 +1,3 @@
+refactor a custom plugins directory
+aggiustare color theme
+aggiustare gitsigns troppo invadenti

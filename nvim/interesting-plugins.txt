@@ -1,0 +1,26 @@
+big credit for this config goes also to this video https://www.youtube.com/watch?v=6pAG3BHurdM
+
+1) rmagatti/auto-session --automatic sessions
+--example configuraion: https://github.com/josean-dev/dev-environment-files/blob/main/.config/nvim/lua/josean/plugins/auto-session.lua (you can disable automatic session reload)
+
+2) vim-dadbod e dadbodUI e tutta la integrazione sql per avere query vista qua https://www.youtube.com/watch?v=NhTPVXP8n7w
+
+3) undotree (permette di recuperare dei fuckup non indifferenti)
+
+4) https://github.com/Jezda1337/nvim-html-css class name completion
+
+5) bufferline (per avere nome del file aperto in alto)
+
+6) noice.nvim per avere command line ad altezza centro dello schermo
+
+7) oil.nvim da provare invece che file tree
+
+8) ccc.nvim per preview colori https://github.com/uga-rosa/ccc.nvim
+
+9) nvim-tree-sitter-text-objects
+10) tabout ()
+11) treesj
+
+Themes:
+- onedark
+- gruvbox

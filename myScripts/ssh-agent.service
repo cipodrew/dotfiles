@@ -1,0 +1,24 @@
+# ~/.config/systemd/user/ssh-agent.service
+# systemctl --user enable ssh-agent.service
+# systemctl --user start ssh-agent.service
+# in .bashrc/.zshrc:
+# export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+# in .ssh/config (to cache key automatically on usage)
+# Host *
+#       AddKeysToAgent yes
+#       IdentitiesOnly yes
+
+[Unit]
+Description=SSH Agent
+Documentation=man:ssh-agent(1)
+
+[Service]
+Type=simple
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=/usr/bin/ssh-agent -D -a $SSH_AUTH_SOCK -t 1h
+ExecStartPost=/bin/sh -c 'echo SSH_AUTH_SOCK=${SSH_AUTH_SOCK} > %t/ssh-agent.env'
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

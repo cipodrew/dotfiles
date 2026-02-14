@@ -1,0 +1,10 @@
+top-level
+notes.txt
+\.gitignore
+\.git
+^/README.*
+\.stowrc
+sensible-ArduinoIDE-keymaps.json
+myScripts
+tmpVSCodeConfig
+nvimbak
