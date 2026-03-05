@@ -9,3 +9,5 @@
 	last = log -1 HEAD
 	prettygraph = log --graph --pretty=format:'%C(yellow)%h -%C(cyan)%d %C(italic brightgreen)%cr - %Creset%s%n'
 	recap = log --graph --oneline --decorate
+	## slect untracked files to track then do add -p (since add -p does not consider untracked files)
+	pp = "!f() { \\\n  if [ -n \"$(git ls-files --others --exclude-standard -z)\" ]; then \\\n    git ls-files --others --exclude-standard -z | \\\n    fzf --read0 -m --print0 | \\\n    xargs -0 -r git add -N; \\\n  fi; \\\n  git add -p; \\\n}; f"
