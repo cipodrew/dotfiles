@@ -76,22 +76,22 @@ function hm-diff-fzf() {
 function hm-preview() {
   local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
   home-manager build --flake ~/dotfiles/home-manager/#"${lowercase_hostname}" && \
-  nvd diff ~/.local/state/nix/profiles/home-manager ./result
-  rm -i ./result
+  nvd diff ~/.local/state/nix/profiles/home-manager /tmp/result
+  rm -i /tmp/result
 }
 
 # Build, preview, and switch if approved
 function hm-update() {
   local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
   if home-manager build --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"; then
-    nvd diff ~/.local/state/nix/profiles/home-manager ./result
+    nvd diff ~/.local/state/nix/profiles/home-manager /tmp/result
     read -p "Apply these changes? [y/N] " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       home-manager switch --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"
     fi
   fi
-  rm -i ./result
+  rm -i /tmp/result
 }
 
 function hm-edit() {
