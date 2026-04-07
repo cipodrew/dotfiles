@@ -87,15 +87,35 @@ function hm-preview() {
 # Build, preview, and switch if approved
 function hm-update() {
   local lowercase_hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
+  local flake_dir=~/dotfiles/home-manager
+  local REPLY
+
+  if [[ ! -d "$flake_dir" ]]; then
+    echo "Flake directory not found: $flake_dir"
+    return 1
+  fi
+
+  echo -n "Update flake? [y/N] "
+  read -r REPLY
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    nix flake update --flake "$flake_dir"
+  else
+    echo "Flake update skipped."
+    return
+  fi
 
   (
     cd /tmp
-    if home-manager build --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"; then
+    if home-manager build --flake "$flake_dir"#"${lowercase_hostname}"; then
       nvd diff ~/.local/state/nix/profiles/home-manager ./result
-      read -p "Apply these changes? [y/N] " -n 1 -r
+      echo -n "Apply these changes and commit? [y/N] "
+      read -r REPLY
       echo
       if [[ $REPLY =~ ^[Yy]$ ]]; then
-        home-manager switch --flake ~/dotfiles/home-manager/#"${lowercase_hostname}"
+        git -C "$flake_dir" add flake.lock
+        git -C "$flake_dir" commit
+        home-manager switch --flake "$flake_dir"#"${lowercase_hostname}"
       fi
     fi
     rm -f ./result
