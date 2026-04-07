@@ -406,7 +406,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
       vim.keymap.set('n', '<leader>fF', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>', { desc = '[F]ind [F]requent' })
       vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = 'Find files that are not gitIgnored' })
-      vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind Telescope' })
+      vim.keymap.set('n', '<leader>ft', builtin.builtin, { desc = '[F]ind [T]elescope' })
       vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
       vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
@@ -701,6 +701,8 @@ vim.keymap.set('n', '<leader>snf', ':noautocmd w', { desc = '[S]ave [N]o [F]orma
 -- update: you cant remap ctrl+non alpha key so cant use this remap, usa Alt+o or Ctrl+o+o instead
 vim.keymap.set('i', '<C-a>', '<Esc>o', { desc = 'Enter new line in next line' })
 vim.keymap.set('n', '<leader>tc', '<cmd>Telescope colorscheme<CR>', { desc = '[T]elescope [C]olorscheme: browse color schemes' })
+vim.keymap.set('n', '<fws>', '<cmd>Telescope lsp_workspace_symbols<CR>', { desc = 'Telescope [W]orkspace [S]ymbols' })
+vim.keymap.set('n', '<leader>fs', '<cmd>Telescope lsp_document_symbols<CR>', { desc = '[F]ind symbols (in document)' })
 vim.keymap.set('n', '<C-e>', '<C-d>', { desc = 'go down half screen' })
 -- vim.keymap.set("n", "<C-e>", "<C-d>zz", { desc = "go down half screen and center view" })
 -- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "go up half screen and center view" })
