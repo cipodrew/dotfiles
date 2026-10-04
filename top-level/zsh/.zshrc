@@ -131,3 +131,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # ssh agent
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+
+# pnpm
+export PNPM_HOME="/home/cipo/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end

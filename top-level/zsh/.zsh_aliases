@@ -26,6 +26,7 @@ alias llt="ls -lt"
 alias lt="ls -t"
 # alias l="ls -A"
 alias l="nnn"
+alias updatedeps="pnpm update -riL"
 
 alias pomowo="pomodoro.sh 'work'"
 alias pomobr="pomodoro.sh 'break'"
