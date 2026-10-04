@@ -1,8 +1,9 @@
+sh
 #!/bin/bash
-set -e  # Exit on error
+set -euo pipefail
 
 # Download latest stable nvim with error checking
-if ! -f nvim-linux-x86_64.tar.gz; then
+if [[ ! -f nvim-linux-x86_64.tar.gz ]]; then
     echo "Downloading Neovim..."
     if ! curl -fLO https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz; then
         echo "Error: Download failed"
@@ -11,7 +12,6 @@ if ! -f nvim-linux-x86_64.tar.gz; then
 else
     echo "file already present in directory"
 fi
-
 # Verify it's actually a gzip file
 if ! file nvim-linux-x86_64.tar.gz | grep -q "gzip compressed"; then
     echo "Error: Downloaded file is not a valid gzip archive"
@@ -20,30 +20,26 @@ if ! file nvim-linux-x86_64.tar.gz | grep -q "gzip compressed"; then
     rm nvim-linux-x86_64.tar.gz
     exit 1
 fi
-
 # Extract to /opt
+sudo mkdir -p /opt/nvim
 echo "Extracting Neovim..."
-sudo rm -rf /opt/nvim-linux-x86_64
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim/nvim-linux-x86_64
+sudo tar -C /opt/nvim -xzf nvim-linux-x86_64.tar.gz
 # Fix ownership to root
-sudo chown -R root:root /opt/nvim-linux-x86_64
-
+sudo chown -R root:root /opt/nvim/nvim-linux-x86_64
 # Get version number
-NVIM_VERSION=$(/opt/nvim-linux-x86_64/bin/nvim --version | head -1 | grep -oP 'v\K[0-9.]+')
+NVIM_VERSION=$(/opt/nvim/nvim-linux-x86_64/bin/nvim --version | head -1 | grep -oP 'v\K[0-9.]+')
+if [[ ! "$NVIM_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: could not determine a valid Neovim version (got: '${NVIM_VERSION}')"
+    exit 1
+fi
 echo "Installing Neovim ${NVIM_VERSION}..."
-
 # Rename to versioned directory
-sudo mv /opt/nvim-linux-x86_64 /opt/nvim-"${NVIM_VERSION}"
-
-# Create symlink to versioned directory
-sudo rm -f /opt/nvim
-sudo ln -s /opt/nvim-"${NVIM_VERSION}" /opt/nvim
-
+sudo rm -rf /opt/nvim/nvim-"${NVIM_VERSION}"
+sudo mv /opt/nvim/nvim-linux-x86_64 /opt/nvim/nvim-"${NVIM_VERSION}"
 # Make available in PATH via /usr/local/bin
-sudo ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
-
+sudo ln -sf /opt/nvim/nvim-"${NVIM_VERSION}"/bin/nvim /usr/local/bin/nvim
 # Cleanup
 rm nvim-linux-x86_64.tar.gz
-
 echo "Neovim ${NVIM_VERSION} installed successfully!"
 nvim --version
